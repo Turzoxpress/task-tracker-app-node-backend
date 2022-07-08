@@ -82,6 +82,7 @@ module.exports = {
         return res.json({
           status: 200,
           message: "Login successful!",
+          name: userResult.name,
           token: jsonToken,
         });
       } else {

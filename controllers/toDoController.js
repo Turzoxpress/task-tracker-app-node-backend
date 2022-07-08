@@ -58,6 +58,31 @@ module.exports = {
           });
         });
     },
+    getAllTasksStatus: async (req, res, next) => {
+      const status = req.params.status;
+      if (status === "deleted") {
+        return res.json({
+          status: 200,
+          message:
+            "Sorry! You do not have permission to view this type of data!",
+        });
+      }
+      toDoModel
+        .find({ status: status })
+        .then((result) => {
+          return res.json({
+            status: 200,
+            count: result.length,
+            data: result,
+          });
+        })
+        .catch((err) => {
+          return res.json({
+            status: 500,
+            message: "Erro" + err,
+          });
+        });
+    },
     changeTaskStatus: async (req, res, next) => {
       const id = req.body.id;
       const status = req.body.status;
