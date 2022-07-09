@@ -13,6 +13,7 @@ module.exports = {
   post: {
     addNewTask: async (req, res, next) => {
       const task_name = req.body.task_name;
+      const task_description = req.body.task_description;
       const status = "created";
       const created_by = req.body.created_by;
 
@@ -22,6 +23,7 @@ module.exports = {
       toDoModel
         .create({
           task_name,
+          task_description,
           status,
           created_by,
           created_at,
@@ -60,15 +62,16 @@ module.exports = {
     },
     getAllTasksStatus: async (req, res, next) => {
       const status = req.params.status;
-      if (status === "deleted") {
-        return res.json({
-          status: 200,
-          message:
-            "Sorry! You do not have permission to view this type of data!",
-        });
-      }
+      // if (status === "deleted") {
+      //   return res.json({
+      //     status: 200,
+      //     message:
+      //       "Sorry! You do not have permission to view this type of data!",
+      //   });
+      // }
       toDoModel
         .find({ status: status })
+        // .find()
         .then((result) => {
           return res.json({
             status: 200,

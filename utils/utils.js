@@ -17,7 +17,7 @@ function authenticateToken(req, res, next) {
       if (err) {
         //return res.sendStatus(403);
         return res.json({
-          code: 403,
+          status: 403,
           msg: "Not Allowed",
         });
       }
@@ -34,7 +34,7 @@ function authenticateToken(req, res, next) {
   } else {
     //res.sendStatus(401);
     return res.json({
-      code: 401,
+      status: 401,
       msg: "Unauthorized",
     });
   }
