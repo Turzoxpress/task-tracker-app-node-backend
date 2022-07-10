@@ -108,6 +108,7 @@ module.exports = {
             $set: {
               status: status,
               modified_by: modified_by,
+              modified_at: utils.getCurrentDate(),
             },
           }
         )
