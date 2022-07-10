@@ -69,8 +69,18 @@ module.exports = {
       //       "Sorry! You do not have permission to view this type of data!",
       //   });
       // }
+
+      const options = {
+        // sort in descending (-1) order by rating
+        //sort : { rating: -1 },
+        // omit the first two documents
+        sort: { modified_at: -1 },
+        // skip: limit * pageNo,
+        // limit: limit,
+      };
+
       toDoModel
-        .find({ status: status })
+        .find({ status: status }, null, options)
         // .find()
         .then((result) => {
           return res.json({
