@@ -15,4 +15,10 @@ router.post(
   utils.authenticateToken,
   controllers.user.post.updateUserRole
 );
+
+router.post(
+  "/delete-user",
+  utils.authenticateToken,
+  controllers.user.post.deleteUser
+);
 module.exports = router;

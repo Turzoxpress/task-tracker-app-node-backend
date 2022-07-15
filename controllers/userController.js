@@ -10,6 +10,33 @@ const utils = require("../utils/utils");
 module.exports = {
   get: {},
   post: {
+    deleteUser: async (req, res) => {
+      const role = req.user.role;
+      if (role != "admin") {
+        return res.json({
+          status: 501,
+          message: "You are not authorized!",
+        });
+      }
+
+      const user_id = req.body.user_id;
+
+      userModel
+        .deleteOne({ _id: mongoose.Types.ObjectId(user_id) })
+        .then((result) => {
+          return res.json({
+            status: 200,
+            message: "User deleted!",
+            data: result,
+          });
+        })
+        .catch((err) => {
+          return res.json({
+            status: 500,
+            message: "Error " + err,
+          });
+        });
+    },
     updateUserRole: async (req, res) => {
       const role = req.user.role;
       // if (role != "admin") {
