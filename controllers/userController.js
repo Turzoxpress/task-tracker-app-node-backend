@@ -87,9 +87,24 @@ module.exports = {
       }
 
       const { name, email, password } = req.body;
+      let role = "user";
 
       const salt = bcrypt.genSaltSync(10);
       const hash = bcrypt.hashSync(password, salt);
+
+      //----------------------
+      const userCount = await userModel.find();
+
+      if (userCount && userCount.length > 0) {
+        //console.log("User count : " + userCount);
+      } else {
+        console.log("No user created yet! Creating an admin first...");
+        role = "admin";
+      }
+
+      //return res.json({ data: userCount });
+
+      //------------------------------------
 
       const userResult = await userModel.findOne({ email: email });
 
@@ -104,7 +119,7 @@ module.exports = {
         name: name,
         email: email,
         password: hash,
-        role: "user",
+        role: role,
         created_at: utils.getCurrentDate(),
         modified_at: utils.getCurrentDate(),
       };
