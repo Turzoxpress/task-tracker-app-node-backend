@@ -11,6 +11,47 @@ const utils = require("../utils/utils");
 module.exports = {
   get: {},
   post: {
+    getTotalTaskCount: async (req, res, next) => {
+      toDoModel
+        .find()
+        .then((result) => {
+          //---------"created", "working", "completed", "deleted"
+          let created = 0;
+          let working = 0;
+          let completed = 0;
+          let deleted = 0;
+          for (let i = 0; i < result.length; i++) {
+            if (result[i].status === "created") {
+              created += 1;
+            } else if (result[i].status === "working") {
+              working += 1;
+            } else if (result[i].status === "completed") {
+              completed += 1;
+            } else if (result[i].status === "deleted") {
+              deleted += 1;
+            }
+          }
+
+          let total = created + working + completed + deleted;
+
+          return res.json({
+            status: 200,
+            data: {
+              total: total,
+              created: created,
+              working: working,
+              completed: completed,
+              deleted: deleted,
+            },
+          });
+        })
+        .catch((err) => {
+          return res.json({
+            status: 500,
+            message: "Error" + err,
+          });
+        });
+    },
     addNewTask: async (req, res, next) => {
       const task_name = req.body.task_name;
       const task_description = req.body.task_description;

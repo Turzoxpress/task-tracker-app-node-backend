@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 
 // Try with 127.0.0.1 if localhost do not work
-mongoose.connect("mongodb://127.0.0.1:27017/todo_practice_db", {
+mongoose.connect("mongodb://127.0.0.1:27017/task_tracker_db", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

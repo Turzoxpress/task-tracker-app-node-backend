@@ -10,6 +10,77 @@ const utils = require("../utils/utils");
 module.exports = {
   get: {},
   post: {
+    updateUserRole: async (req, res) => {
+      const role = req.user.role;
+      // if (role != "admin") {
+      //   return res.json({
+      //     status: 501,
+      //     message: "You are not authorized!",
+      //   });
+      // }
+
+      const user_id = req.body.user_id;
+      const new_role = req.body.role;
+
+      userModel
+        .updateOne(
+          { _id: mongoose.Types.ObjectId(user_id) },
+          {
+            $set: {
+              role: new_role,
+              modified_at: utils.getCurrentDate(),
+            },
+          }
+        )
+        .then((result) => {
+          return res.json({
+            status: 200,
+            message: "User role updated successfully!",
+            data: result,
+          });
+        })
+        .catch((err) => {
+          return res.json({
+            status: 500,
+            message: "Error " + err,
+          });
+        });
+    },
+    getAllUsers: async (req, res) => {
+      const role = req.user.role;
+
+      if (role != "admin") {
+        return res.json({
+          status: 501,
+          message: "You are not authorized!",
+        });
+      }
+
+      const options = {
+        // sort in descending (-1) order by rating
+        //sort : { rating: -1 },
+        // omit the first two documents
+        sort: { created_at: -1 },
+        // skip: limit * pageNo,
+        // limit: limit,
+      };
+
+      userModel
+        .find(null, null, options)
+        .then((result) => {
+          return res.json({
+            status: 200,
+            count: result.length,
+            data: result,
+          });
+        })
+        .catch((err) => {
+          return res.json({
+            status: 500,
+            message: "Error " + err,
+          });
+        });
+    },
     registerNewUser: async (req, res) => {
       if (!Object.keys(req.body).length) {
         return res.json({ status: 501, message: "No body provided" });
@@ -33,6 +104,9 @@ module.exports = {
         name: name,
         email: email,
         password: hash,
+        role: "user",
+        created_at: utils.getCurrentDate(),
+        modified_at: utils.getCurrentDate(),
       };
 
       userModel
@@ -83,6 +157,7 @@ module.exports = {
           status: 200,
           message: "Login successful!",
           name: userResult.name,
+          role: userResult.role,
           token: jsonToken,
         });
       } else {

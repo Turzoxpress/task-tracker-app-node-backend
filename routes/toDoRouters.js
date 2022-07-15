@@ -27,4 +27,6 @@ router.post(
   utils.authenticateToken,
   controllers.todo.post.deleteTask
 );
+
+router.get("/task-count", controllers.todo.post.getTotalTaskCount);
 module.exports = router;
