@@ -234,8 +234,8 @@ module.exports = {
     },
 
     getFile: async (req, res, next) => {
-      const filePath = req.body.filePath;
-      //return res.json({ path: filePath });
+      const filePath = req.params.filePath;
+     // return res.json({ path: filePath });
 
       var filePathServer = path.join("uploads/", filePath);
       //var finalFile = fileSystem.statSync(filePathServer);

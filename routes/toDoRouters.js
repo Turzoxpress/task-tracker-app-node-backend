@@ -73,9 +73,9 @@ router.post(
   controllers.todo.post.deleteTask
 );
 
-router.post(
-  "/get-file",
-  utils.authenticateToken,
+router.get(
+  "/get-file/:filePath",
+  //utils.authenticateToken,
   controllers.todo.post.getFile
 );
 

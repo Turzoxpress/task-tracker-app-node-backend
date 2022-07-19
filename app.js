@@ -3,7 +3,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 const app = express();
-const port = 5001;
+//const port = 5001;
+const port = 3000;
 
 /*
 Set the cors option to access this server from outside of the world. Don't forget to limit this access when you are in production mode
