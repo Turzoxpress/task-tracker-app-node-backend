@@ -59,7 +59,7 @@ router.get(
   controllers.todo.post.getAllTasks
 );
 router.get(
-  "/get-all-tasks-status/:status",
+  "/get-all-tasks-status/:status/:sortvalue",
   controllers.todo.post.getAllTasksStatus
 );
 router.post(

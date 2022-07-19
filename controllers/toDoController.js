@@ -123,6 +123,8 @@ module.exports = {
     },
     getAllTasksStatus: async (req, res, next) => {
       const status = req.params.status;
+      const sortvalue = req.params.sortvalue;
+      console.log("order by: " + sortvalue)
       // if (status === "deleted") {
       //   return res.json({
       //     status: 200,
@@ -131,14 +133,31 @@ module.exports = {
       //   });
       // }
 
-      const options = {
-        // sort in descending (-1) order by rating
-        //sort : { rating: -1 },
-        // omit the first two documents
-        sort: { modified_at: -1 },
-        // skip: limit * pageNo,
-        // limit: limit,
-      };
+      let options = ""
+      if(sortvalue === "created_at"){
+
+        options = {
+          // sort in descending (-1) order by rating
+          //sort : { rating: -1 },
+          // omit the first two documents
+          sort: { created_at: -1 },
+          // skip: limit * pageNo,
+          // limit: limit,
+        };
+
+      }else{
+
+        options = {
+          // sort in descending (-1) order by rating
+          //sort : { rating: -1 },
+          // omit the first two documents
+          sort: { modified_at: -1 },
+          // skip: limit * pageNo,
+          // limit: limit,
+        };
+
+      }
+      
 
       toDoModel
         .find({ status: status }, null, options)
