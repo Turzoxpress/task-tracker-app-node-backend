@@ -8,6 +8,9 @@ const bcrypt = require("bcryptjs");
 
 const utils = require("../utils/utils");
 
+const fileSystem = require("fs");
+const path = require("path");
+
 module.exports = {
   get: {},
   post: {
@@ -58,14 +61,22 @@ module.exports = {
       const status = "created";
       const created_by = req.body.created_by;
 
+     console.log("Custom task name ........" + task_name)
+
       const created_at = utils.getCurrentDate();
       const modified_at = utils.getCurrentDate();
+
+      let filePath = "NA";
+      if (req.file) {
+        filePath = await req.file.filename;
+      }
 
       toDoModel
         .create({
           task_name,
           task_description,
           status,
+          filePath,
           created_by,
           created_at,
           modified_at,
@@ -85,8 +96,17 @@ module.exports = {
         });
     },
     getAllTasks: async (req, res, next) => {
+
+      const options = {
+        // sort in descending (-1) order by rating
+        //sort : { rating: -1 },
+        // omit the first two documents
+        sort: { modified_at: -1 },
+        // skip: limit * pageNo,
+        // limit: limit,
+      };
       toDoModel
-        .find({ status: { $ne: "deleted" } })
+        .find({ status: { $ne: "deleted" } }, null, options)
         .then((result) => {
           return res.json({
             status: 200,
@@ -211,6 +231,16 @@ module.exports = {
       //         message: "Erro" + err,
       //       });
       //     });
+    },
+
+    getFile: async (req, res, next) => {
+      const filePath = req.body.filePath;
+      //return res.json({ path: filePath });
+
+      var filePathServer = path.join("uploads/", filePath);
+      //var finalFile = fileSystem.statSync(filePathServer);
+
+      return res.download(filePathServer);
     },
   },
 };

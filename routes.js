@@ -8,7 +8,7 @@ module.exports = (app) => {
   app.get("/welcome", (req, res) => {
     return res.json({
       code: 200,
-      message: "Congratulations! Your ToDo App backend is ready!",
+      message: "Congratulations! Your Task Tracker backend is ready!",
     });
   });
 };

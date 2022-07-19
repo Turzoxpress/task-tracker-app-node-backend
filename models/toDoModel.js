@@ -10,6 +10,7 @@ const toDoListSchema = new mongoose.Schema({
 
   created_by: String,
   modified_by: String,
+  filePath: String,
 
   created_at: Date,
   modified_at: Date,
