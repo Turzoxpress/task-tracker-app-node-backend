@@ -21,7 +21,7 @@ Do you need to track ongoing tasks of your project? This is a fullstack applicat
 ## How to start ?
 
 ```
-git clone https://github.com/Turzoxpress/task-tracker-app-react-frontend
+git clone https://github.com/Turzoxpress/task-tracker-app-node-backend
 
 npm i
 
